@@ -14,3 +14,6 @@ areaDesenho.fillRect(0, 30, 5, 50);
 
 //raquete 2
 areaDesenho.fillRect(595, 30, 5, 50);
+
+//bola quadrada
+areaDesenho.fillRect(30, 30, 5, 5);
