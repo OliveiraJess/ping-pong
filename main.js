@@ -1,43 +1,48 @@
+
 window.onload = function () {
-    setInterval(executar, 1000 / 30);
+    iniciar();
+    setInterval(principal, 1000 / 30);
 }
 
-const folhaDesenho = document.getElementById("folha");
-const areaDesenho = folhaDesenho.getContext("2d");
+//variaveis globais
+function iniciar() {
+    folhaDesenho = document.getElementById("folha");
+    areaDesenho = folhaDesenho.getContext("2d");
 
-//posicao jogadores
-let posicaoJogador1 = 40;
-let posicaoJogador2 = 40;
+    //posicao jogadores
+    posicaoJogador1 = 40;
+    posicaoJogador2 = 40;
 
-//velocidade raquete jogador 2
-let velocidadeJogador2 = 7;
+    //velocidade raquete jogador 2
+    velocidadeJogador2 = 7;
 
-//pontuacao jogadores
-let pontuacaoJogador1 = 0;
-let pontuacaoJogador2 = 0;
+    //pontuacao jogadores
+    pontuacaoJogador1 = 0;
+    pontuacaoJogador2 = 0;
 
-//posicao bola
-let posicaoBolaY = 10;
-let posicaoBolaX = 10;
-let velocidadeBolaPosicaoY = 8;
-let velocidadeBolaPosicaoX = 8;
+    //posicao bola
+    posicaoBolaY = 10;
+    posicaoBolaX = 10;
+    velocidadeBolaPosicaoY = 8;
+    velocidadeBolaPosicaoX = 8;
 
-//medidas/tamanhos
-const larguraCampo = 600;
-const alturaCampo = 500;
-const espessuraRede = 5;
-const diametroBola = 10;
-const espessuraRaquete = 11;
-const alturaRaquete = 100;
-const efeitoRaquete = 0.3;
+    //medidas/tamanhos
+    larguraCampo = 600;
+    alturaCampo = 500;
+    espessuraRede = 5;
+    diametroBola = 10;
+    espessuraRaquete = 11;
+    alturaRaquete = 100;
+    efeitoRaquete = 0.3;
 
-folhaDesenho.addEventListener('mousemove', function (e) {
-    posicaoJogador1 = e.clientY - alturaRaquete / 2;
-})
+    folhaDesenho.addEventListener('mousemove', function (e) {
+        posicaoJogador1 = e.clientY - alturaRaquete / 2;
+    })
 
-function executar() {
+}
 
-
+//desenhar
+function desenhar() {
     //criando campo
     areaDesenho.fillStyle = "#286047";
     areaDesenho.fillRect(0, 0, larguraCampo, alturaCampo);
@@ -55,13 +60,25 @@ function executar() {
     //raquete 2
     areaDesenho.fillRect(larguraCampo - espessuraRaquete, posicaoJogador2, espessuraRaquete, alturaRaquete);
 
+    //desenho pontuacao dos jogadores
+    areaDesenho.fillText("Voce - " + pontuacaoJogador1 + " pontos", 100, 100);
+    areaDesenho.fillText("Computador - " + pontuacaoJogador2 + " pontos", larguraCampo - 200, 100);
+}
+
+//colocar a bola no centro
+function colocarBolaCentro() {
+    posicaoBolaX = larguraCampo / 2;
+    posicaoBolaY = alturaCampo / 2;
+    velocidadeBolaPosicaoX = -velocidadeBolaPosicaoX;
+    velocidadeBolaPosicaoY = 3;
+}
+
+//calcular
+function calcular() {
     //posicao bola com velocidade
     posicaoBolaX = posicaoBolaX + velocidadeBolaPosicaoX;
     posicaoBolaY = posicaoBolaY + velocidadeBolaPosicaoY;
 
-    //desenho pontuacao dos jogadores
-    areaDesenho.fillText("Voce - " + pontuacaoJogador1 + " pontos", 100, 100);
-    areaDesenho.fillText("Computador - " + pontuacaoJogador2 + " pontos", larguraCampo - 200, 100);
 
     //verifica lateral superior
     if (posicaoBolaY < 0 && velocidadeBolaPosicaoY < 0) {
@@ -85,12 +102,7 @@ function executar() {
         } else {
             //ponto jogador 2
             pontuacaoJogador2++
-
-            //colocar a bola no centro
-            posicaoBolaX = larguraCampo / 2;
-            posicaoBolaY = alturaCampo / 2;
-            velocidadeBolaPosicaoX = -velocidadeBolaPosicaoX;
-            velocidadeBolaPosicaoY = 3;
+            colocarBolaCentro();
         }
 
     }
@@ -107,12 +119,7 @@ function executar() {
         } else {
             //ponto jogador 1
             pontuacaoJogador1++;
-
-            //colocar a bola no centro
-            posicaoBolaX = larguraCampo / 2;
-            posicaoBolaY = alturaCampo / 2;
-            velocidadeBolaPosicaoX = -velocidadeBolaPosicaoX;
-            velocidadeBolaPosicaoY = 3;
+            colocarBolaCentro();
         }
     }
 
@@ -125,6 +132,9 @@ function executar() {
     }
 }
 
-
-
+//chama as funcoes desenhar e calcular
+function principal() {
+    desenhar();
+    calcular();
+}
 
