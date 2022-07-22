@@ -5,6 +5,8 @@ window.onload = function () {
 //posicao bola
 let posicaoBolaY = 10;
 let posicaoBolaX = posicaoBolaY;
+let velocidadeBolaPosicaoY = 5;
+let velocidadeBolaPosicaoX = velocidadeBolaPosicaoY;
 
 function executar() {
     const folhaDesenho = document.getElementById("folha");
@@ -34,8 +36,18 @@ function executar() {
     //bola quadrada
     areaDesenho.fillRect(posicaoBolaX - (diametroBola / 2), posicaoBolaY - (diametroBola / 2), diametroBola, diametroBola);
 
-    posicaoBolaX = posicaoBolaX + 1
-    posicaoBolaY = posicaoBolaY + 1
+    posicaoBolaX = posicaoBolaX + velocidadeBolaPosicaoX;
+    posicaoBolaY = posicaoBolaY + velocidadeBolaPosicaoY;
+
+    //verifica lateral superior
+    if (posicaoBolaY < 0 && velocidadeBolaPosicaoY < 0) {
+        velocidadeBolaPosicaoY = -velocidadeBolaPosicaoY;
+    }
+
+    //verifica lateral inferior
+    if (posicaoBolaY > alturaCampo && velocidadeBolaPosicaoY > 0) {
+        velocidadeBolaPosicaoY = -velocidadeBolaPosicaoY;
+    }
 }
 
 
