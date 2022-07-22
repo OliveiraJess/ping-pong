@@ -2,9 +2,15 @@ window.onload = function () {
     setInterval(executar, 1000 / 30);
 }
 
+const folhaDesenho = document.getElementById("folha");
+const areaDesenho = folhaDesenho.getContext("2d");
+
 //posicao jogadores
 let posicaoJogador1 = 40;
 let posicaoJogador2 = 40;
+
+//velocidade raquete jogador 2
+let velocidadeJogador2 = 7;
 
 //pontuacao jogadores
 let pontuacaoJogador1 = 0;
@@ -13,21 +19,24 @@ let pontuacaoJogador2 = 0;
 //posicao bola
 let posicaoBolaY = 10;
 let posicaoBolaX = 10;
-let velocidadeBolaPosicaoY = 5;
-let velocidadeBolaPosicaoX = 5;
+let velocidadeBolaPosicaoY = 8;
+let velocidadeBolaPosicaoX = 8;
+
+//medidas/tamanhos
+const larguraCampo = 600;
+const alturaCampo = 500;
+const espessuraRede = 5;
+const diametroBola = 10;
+const espessuraRaquete = 11;
+const alturaRaquete = 100;
+const efeitoRaquete = 0.3;
+
+folhaDesenho.addEventListener('mousemove', function (e) {
+    posicaoJogador1 = e.clientY - alturaRaquete / 2;
+})
 
 function executar() {
-    const folhaDesenho = document.getElementById("folha");
-    const areaDesenho = folhaDesenho.getContext("2d");
 
-    //medidas/tamanhos
-    const larguraCampo = 600;
-    const alturaCampo = 500;
-    const espessuraRede = 5;
-    const diametroBola = 10;
-    const espessuraRaquete = 11;
-    const alturaRaquete = 100;
-    const efeitoRaquete = 0.3;
 
     //criando campo
     areaDesenho.fillStyle = "#286047";
@@ -78,14 +87,17 @@ function executar() {
             pontuacaoJogador2++
 
             //colocar a bola no centro
-
+            posicaoBolaX = larguraCampo / 2;
+            posicaoBolaY = alturaCampo / 2;
+            velocidadeBolaPosicaoX = -velocidadeBolaPosicaoX;
+            velocidadeBolaPosicaoY = 3;
         }
 
     }
 
     //verifica se o jogador 1 fez ponto
     if (posicaoBolaX > larguraCampo) {
-        if (posicaoBolaY > posicaoJogador2 && posicaoBolaY < pontuacaoJogador2 + alturaRaquete) {
+        if (posicaoBolaY > posicaoJogador2 && posicaoBolaY < posicaoJogador2 + alturaRaquete) {
             //rebater a bola
             velocidadeBolaPosicaoX = - velocidadeBolaPosicaoX;
 
@@ -97,8 +109,19 @@ function executar() {
             pontuacaoJogador1++;
 
             //colocar a bola no centro
+            posicaoBolaX = larguraCampo / 2;
+            posicaoBolaY = alturaCampo / 2;
+            velocidadeBolaPosicaoX = -velocidadeBolaPosicaoX;
+            velocidadeBolaPosicaoY = 3;
         }
+    }
 
+    //atualiza a posicao do jogador 2
+    if (posicaoJogador2 + alturaRaquete / 2 < posicaoBolaY) {
+        posicaoJogador2 = posicaoJogador2 + velocidadeJogador2;
+
+    } else {
+        posicaoJogador2 = posicaoJogador2 - velocidadeJogador2;
     }
 }
 
